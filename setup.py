@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 PACKAGE_DATA = list()
 setup(
-    name="zorgen_manager",
+    name="zorgen-manager",
     version="0.0.1",
     packages=find_packages(),
     include_package_data=True,
@@ -22,7 +22,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'zorgen-admin=zorgen_admin:main',
+            'zorgen-admin=zorgen_manager.commands.zorgen_admin:main',
         ],
     },
 )
