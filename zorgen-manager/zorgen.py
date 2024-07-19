@@ -32,18 +32,3 @@ def update_apps_file(app_dir, app_name):
 
     with open(apps_file_path, 'w') as file:
         file.write(content)
-    
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Uso: python zorgen.py createapp <nome>")
-        sys.exit(1)
-    
-    command = sys.argv[1]
-    app_name = sys.argv[2]
-    
-    if command == "createapp":
-        create_app_directory(app_name)
-        print(f"APP {app_name} criado com sucesso!")
-    else:
-        print("Comando inválido. Use: python zorgen.py createapp <nome>")
-        sys.exit(1)

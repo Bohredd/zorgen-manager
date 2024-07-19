@@ -20,4 +20,9 @@ setup(
     install_requires=[
         "Django"
     ],
+    entry_points={
+        'console_scripts': [
+            'zorgen-admin=zorgen.zorgen_admin:main',
+        ],
+    },
 )
