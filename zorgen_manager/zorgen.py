@@ -2,21 +2,43 @@ import shutil
 import os
 import sys
 
+def is_ignored_directory(path):
+    ignored_dirs = {'VENV', 'ENV', 'VIRTUALENV', 'ENVIROMENT'}
+    # Check if the path or any of its parent directories is in the ignored_dirs list
+    while path != os.path.dirname(path):
+        if os.path.basename(path) in ignored_dirs:
+            return True
+        path = os.path.dirname(path)
+    return False
+
+def find_manage_py(start_dir):
+    for root, dirs, files in os.walk(start_dir):
+        if 'manage.py' in files and not is_ignored_directory(root):
+            return root
+    raise FileNotFoundError("manage.py not found in non-ignored directories.")
+
 def create_app_directory(app_name):
+    try:
+        base_dir = find_manage_py(os.path.dirname(os.path.abspath(__file__)))
+    except FileNotFoundError as e:
+        print(e)
+        exit(1)
+    
     source_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app')
-    print(source_dir)
+    destination_dir = os.path.join(base_dir, app_name)
 
-    destination_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), app_name)
-
-    print(destination_dir)
     if not os.path.exists(source_dir):
-        print("nao existe o diretorio ", destination_dir)
+        print(f"Source directory {source_dir} does not exist.")
         exit(1)
 
     if os.path.exists(destination_dir):
         shutil.rmtree(destination_dir)
     
-    shutil.copytree(source_dir, destination_dir, dirs_exist_ok=True)
+    try:
+        shutil.copytree(source_dir, destination_dir, dirs_exist_ok=True)
+    except Exception as e:
+        print(f"Error copying directory: {e}")
+        exit(1)
     
     update_apps_file(destination_dir, app_name)
 
@@ -26,12 +48,17 @@ def update_apps_file(app_dir, app_name):
     if not os.path.exists(apps_file_path):
         return
     
-    with open(apps_file_path, 'r') as file:
-        content = file.read()
+    try:
+        with open(apps_file_path, 'r') as file:
+            content = file.read()
+        
+        content = content.replace('class AppNameConfig(AppConfig):', f'class {app_name}Config(AppConfig):')
+        content = content.replace('name = "appname"', f'name = "{app_name}"')
 
+        with open(apps_file_path, 'w') as file:
+            file.write(content)
+    except Exception as e:
+        print(f"Error updating apps file: {e}")
 
-    content = content.replace('class AppNameConfig(AppConfig):', f'class {app_name}Config(AppConfig):')
-    content = content.replace('name = "appname"', f'name = "{app_name}"')
-
-    with open(apps_file_path, 'w') as file:
-        file.write(content)
+# Example usage:
+# create_app_directory('my_new_app')
