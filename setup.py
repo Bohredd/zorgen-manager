@@ -22,7 +22,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'zorgen-admin=commands.zorgen_admin:main',
+            'zorgen-admin=zorgen-manager.commands.zorgen_admin:main',
         ],
     },
 )
