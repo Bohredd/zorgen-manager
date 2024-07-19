@@ -1,6 +1,6 @@
 import subprocess
 import sys
-from ..zorgen import create_app_directory
+from .zorgen import create_app_directory
 
 def custom_startapp():
     if len(sys.argv) < 3:
