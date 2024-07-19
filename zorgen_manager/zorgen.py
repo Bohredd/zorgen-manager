@@ -4,10 +4,13 @@ import sys
 
 def create_app_directory(app_name):
     source_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app')
-    
+    print(source_dir)
+
     destination_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), app_name)
 
+    print(destination_dir)
     if not os.path.exists(source_dir):
+        print("nao existe o diretorio ", destination_dir)
         exit(1)
 
     if os.path.exists(destination_dir):
