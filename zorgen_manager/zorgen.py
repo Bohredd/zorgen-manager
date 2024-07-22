@@ -26,6 +26,7 @@ def create_app_directory(app_name):
         print(e)
         exit(1)
     
+    print(base_dir)
     source_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app')
     destination_dir = os.path.join(base_dir, app_name)
 
@@ -34,8 +35,11 @@ def create_app_directory(app_name):
         exit(1)
 
     if os.path.exists(destination_dir):
+        print("existia foi exlcuido")
         shutil.rmtree(destination_dir)
-    
+    else:
+        print("nao existe")
+
     try:
         shutil.copytree(source_dir, destination_dir, dirs_exist_ok=True)
     except Exception as e:
