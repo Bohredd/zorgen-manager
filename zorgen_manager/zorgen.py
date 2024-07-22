@@ -21,7 +21,7 @@ def find_manage_py():
 
 def create_app_directory(app_name):
     try:
-        base_dir = find_manage_py(os.path.dirname(os.path.abspath(__file__)))
+        base_dir = find_manage_py()
     except FileNotFoundError as e:
         print(e)
         exit(1)
