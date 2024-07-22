@@ -1,2 +1,2 @@
-zorgen_manager/commands/__pycache__/zorgen_admin.cpython-310.pyc
-zorgen_manager/commands/__pycache__/__init__.cpython-310.pyc
+*.pyc
+/venv/
