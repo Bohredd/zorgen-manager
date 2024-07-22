@@ -3,7 +3,7 @@ import os
 import sys
 
 def is_ignored_directory(path):
-    ignored_dirs = {'VENV', 'ENV', 'VIRTUALENV', 'ENVIROMENT'}
+    ignored_dirs = {'VENV', 'venv', 'env', 'ENV', 'virtualenv', 'VIRTUALENV', 'ENVIROMENT'}
     # Check if the path or any of its parent directories is in the ignored_dirs list
     while path != os.path.dirname(path):
         if os.path.basename(path) in ignored_dirs:
@@ -11,10 +11,12 @@ def is_ignored_directory(path):
         path = os.path.dirname(path)
     return False
 
-def find_manage_py(start_dir):
+def find_manage_py():
+    start_dir = os.getcwd()
+
     for root, dirs, files in os.walk(start_dir):
         if 'manage.py' in files and not is_ignored_directory(root):
-            return root
+            return os.path.join(root, 'manage.py')
     raise FileNotFoundError("manage.py not found in non-ignored directories.")
 
 def create_app_directory(app_name):
