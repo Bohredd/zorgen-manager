@@ -38,8 +38,9 @@ def create_app_directory(app_name):
         print("existia foi exlcuido")
         shutil.rmtree(destination_dir)
     else:
-        print("nao existe")
-
+        os.makedirs(destination_dir, exist_ok=True)
+        print("Diretório de destino criado:", destination_dir)
+        
     try:
         shutil.copytree(source_dir, destination_dir, dirs_exist_ok=True)
     except Exception as e:
