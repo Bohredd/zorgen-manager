@@ -22,6 +22,7 @@ def find_manage_py():
 def create_app_directory(app_name):
     try:
         base_dir = find_manage_py()
+        base_dir = base_dir.split('/manage.py')[0]
     except FileNotFoundError as e:
         print(e)
         exit(1)
@@ -37,10 +38,10 @@ def create_app_directory(app_name):
     if os.path.exists(destination_dir):
         print("existia foi exlcuido")
         shutil.rmtree(destination_dir)
-    else:
-        os.makedirs(destination_dir, exist_ok=True)
-        print("Diretório de destino criado:", destination_dir)
-        
+    # else:
+    #     os.makedirs(destination_dir, exist_ok=True)
+    #     print("Diretório de destino criado:", destination_dir)
+
     try:
         shutil.copytree(source_dir, destination_dir, dirs_exist_ok=True)
     except Exception as e:
