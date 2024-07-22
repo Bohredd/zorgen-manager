@@ -52,13 +52,13 @@ def create_app_directory(app_name):
 
     pycache_dir = os.path.join(destination_dir, '__pycache__')
     if os.path.exists(pycache_dir):
-        print(f"Deleting __pycache__ directory at {pycache_dir}")
+        # print(f"Deleting __pycache__ directory at {pycache_dir}")
         shutil.rmtree(pycache_dir)
 
         for root, dirs, files in os.walk(destination_dir, topdown=False):
             if '__pycache__' in dirs:
                 pycache_dir = os.path.join(root, '__pycache__')
-                print(f"Deleting __pycache__ directory at {pycache_dir}")
+                # print(f"Deleting __pycache__ directory at {pycache_dir}")
                 shutil.rmtree(pycache_dir)
 
 def update_apps_file(app_dir, app_name):
