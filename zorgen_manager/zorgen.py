@@ -27,16 +27,16 @@ def create_app_directory(app_name):
         print(e)
         exit(1)
     
-    print(base_dir)
+    # print(base_dir)
     source_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app')
     destination_dir = os.path.join(base_dir, app_name)
 
     if not os.path.exists(source_dir):
-        print(f"Source directory {source_dir} does not exist.")
+        # print(f"Source directory {source_dir} does not exist.")
         exit(1)
 
     if os.path.exists(destination_dir):
-        print("existia foi exlcuido")
+        # print("existia foi exlcuido")
         shutil.rmtree(destination_dir)
     # else:
     #     os.makedirs(destination_dir, exist_ok=True)
@@ -45,7 +45,7 @@ def create_app_directory(app_name):
     try:
         shutil.copytree(source_dir, destination_dir, dirs_exist_ok=True)
     except Exception as e:
-        print(f"Error copying directory: {e}")
+        # print(f"Error copying directory: {e}")
         exit(1)
     
     update_apps_file(destination_dir, app_name)

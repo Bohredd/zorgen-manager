@@ -8,8 +8,9 @@ def custom_startapp():
         sys.exit(1)
 
     app_name = sys.argv[2]
-    print(f"Executando lógica personalizada para criar o aplicativo: {app_name}")
     create_app_directory(app_name)
+    print(f"Criado APP de maneira personalizada: {app_name}")
+
 
 def main():
     if len(sys.argv) < 2:
