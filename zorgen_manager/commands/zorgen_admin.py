@@ -32,10 +32,23 @@ def find_manage_py():
             return os.path.join(root, 'manage.py')
     raise FileNotFoundError("manage.py not found in non-ignored directories.")
 
+def find_settings_py(base_dir):
+    for root, dirs, files in os.walk(base_dir):
+        if 'settings.py' in files:
+            return os.path.join(root, 'settings.py')
+    raise FileNotFoundError("settings.py not found")
+
 def create_app_directory(app_name):
     try:
         base_dir = find_manage_py()
         base_dir = base_dir.split('/manage.py')[0]
+    except FileNotFoundError as e:
+        print(e)
+        exit(1)
+
+    try:
+        settings_path = find_settings_py(base_dir)
+        print(f"Found settings.py at: {settings_path}")
     except FileNotFoundError as e:
         print(e)
         exit(1)
