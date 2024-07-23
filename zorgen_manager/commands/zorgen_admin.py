@@ -11,19 +11,6 @@ def is_ignored_directory(path):
         path = os.path.dirname(path)
     return False
 
-
-def find_settings_directory():
-    start_path = os.getcwd()
-
-    # Caminho para iniciar a busca
-    for root, dirs, files in os.walk(start_path):
-        # Arquivos que estamos procurando
-        required_files = {"settings.py", "urls.py", "wsgi.py", "asgi.py"}
-        # Verifica se todos os arquivos requeridos estão presentes no diretório atual
-        if required_files.issubset(set(files)):
-            print(f'Diretório encontrado: {root}')
-
-
 def find_manage_py():
     start_dir = os.getcwd()
 
@@ -72,16 +59,13 @@ def create_app_directory(app_name):
         print(e)
         exit(1)
     
-    source_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app')
+    source_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'app')
     destination_dir = os.path.join(base_dir, app_name)
-
-    # if not os.path.exists(source_dir):
-    #     exit(1)
 
     if os.path.exists(destination_dir):
         shutil.rmtree(destination_dir)
 
-    shutil.copytree(source_dir, destination_dir, dirs_exist_ok=True)  
+    shutil.copytree(source_dir, destination_dir, dirs_exist_ok=True)
     
     update_apps_file(destination_dir, app_name)
 
@@ -89,10 +73,10 @@ def create_app_directory(app_name):
     if os.path.exists(pycache_dir):
         shutil.rmtree(pycache_dir)
 
-        for root, dirs, files in os.walk(destination_dir, topdown=False):
-            if '__pycache__' in dirs:
-                pycache_dir = os.path.join(root, '__pycache__')
-                shutil.rmtree(pycache_dir)
+    for root, dirs, files in os.walk(destination_dir, topdown=False):
+        if '__pycache__' in dirs:
+            pycache_dir = os.path.join(root, '__pycache__')
+            shutil.rmtree(pycache_dir)
 
 def update_apps_file(app_dir, app_name):
     apps_file_path = os.path.join(app_dir, 'apps.py')
