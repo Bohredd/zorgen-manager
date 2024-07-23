@@ -49,6 +49,11 @@ def create_app_directory(app_name):
     try:
         settings_path = find_settings_py(base_dir)
         print(f"Found settings.py at: {settings_path}")
+        try:
+            with open(settings_path, 'r') as file:
+                print(file.read())
+        except Exception as e:
+            print(f"Error reading {settings_path}: {e}")
     except FileNotFoundError as e:
         print(e)
         exit(1)
@@ -56,8 +61,8 @@ def create_app_directory(app_name):
     source_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app')
     destination_dir = os.path.join(base_dir, app_name)
 
-    if not os.path.exists(source_dir):
-        exit(1)
+    # if not os.path.exists(source_dir):
+    #     exit(1)
 
     if os.path.exists(destination_dir):
         shutil.rmtree(destination_dir)
