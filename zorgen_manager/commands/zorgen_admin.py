@@ -88,7 +88,7 @@ def update_apps_file(app_dir, app_name):
         with open(apps_file_path, 'r') as file:
             content = file.read()
         
-        content = content.replace('class AppNameConfig(AppConfig):', f'class {app_name}Config(AppConfig):')
+        content = content.replace('class AppNameConfig(AppConfig):', f'class {app_name.capitalize()}Config(AppConfig):')
         content = content.replace('name = "appname"', f'name = "{app_name}"')
 
         with open(apps_file_path, 'w') as file:
