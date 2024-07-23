@@ -11,6 +11,7 @@ def is_ignored_directory(path):
         path = os.path.dirname(path)
     return False
 
+
 def find_settings_directory():
     start_path = os.getcwd()
 
@@ -21,8 +22,7 @@ def find_settings_directory():
         # Verifica se todos os arquivos requeridos estão presentes no diretório atual
         if required_files.issubset(set(files)):
             print(f'Diretório encontrado: {root}')
-            return root
-    raise FileNotFoundError("settings.py not found.")
+
 
 def find_manage_py():
     start_dir = os.getcwd()
@@ -83,19 +83,6 @@ def update_apps_file(app_dir, app_name):
     except Exception as e:
         print(f"Error updating apps file: {e}")
 
-def display_settings_file():
-    try:
-        settings_dir = find_settings_directory()
-        settings_file_path = os.path.join(settings_dir, 'settings.py')
-
-        if os.path.exists(settings_file_path):
-            with open(settings_file_path, 'r') as file:
-                print(file.read())
-        else:
-            print("settings.py não encontrado.")
-    except FileNotFoundError as e:
-        print(e)
-
 def custom_startapp():
     if len(sys.argv) < 3:
         print("Por favor, forneça o nome do aplicativo.")
@@ -104,7 +91,6 @@ def custom_startapp():
     app_name = sys.argv[2]
     create_app_directory(app_name)
     print(f"Criado APP de maneira personalizada: {app_name}")
-    display_settings_file()
 
 def main():
     if len(sys.argv) < 2:
