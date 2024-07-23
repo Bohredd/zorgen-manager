@@ -33,13 +33,13 @@ def add_app_to_installed_apps(settings_path, app_name):
         with open(settings_path, 'w') as file:
             in_installed_apps = False
             for line in lines:
-                file.write(line)
                 if line.strip() == 'INSTALLED_APPS = [':
                     in_installed_apps = True
-                elif in_installed_apps and line.strip() == ']':
+                if in_installed_apps and line.strip() == ']':
                     file.write(f"    '{app_name}',\n")
                     in_installed_apps = False
-
+                file.write(line)
+                
     except Exception as e:
         print(f"Error updating {settings_path}: {e}")
 
