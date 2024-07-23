@@ -38,6 +38,24 @@ def find_settings_py(base_dir):
             return os.path.join(root, 'settings.py')
     raise FileNotFoundError("settings.py not found")
 
+def add_app_to_installed_apps(settings_path, app_name):
+    try:
+        with open(settings_path, 'r') as file:
+            lines = file.readlines()
+        
+        with open(settings_path, 'w') as file:
+            in_installed_apps = False
+            for line in lines:
+                file.write(line)
+                if line.strip() == 'INSTALLED_APPS = [':
+                    in_installed_apps = True
+                elif in_installed_apps and line.strip() == ']':
+                    file.write(f"    '{app_name}',\n")
+                    in_installed_apps = False
+
+    except Exception as e:
+        print(f"Error updating {settings_path}: {e}")
+
 def create_app_directory(app_name):
     try:
         base_dir = find_manage_py()
@@ -49,11 +67,7 @@ def create_app_directory(app_name):
     try:
         settings_path = find_settings_py(base_dir)
         print(f"Found settings.py at: {settings_path}")
-        try:
-            with open(settings_path, 'r') as file:
-                print(file.read())
-        except Exception as e:
-            print(f"Error reading {settings_path}: {e}")
+        add_app_to_installed_apps(settings_path, app_name)
     except FileNotFoundError as e:
         print(e)
         exit(1)
@@ -67,10 +81,7 @@ def create_app_directory(app_name):
     if os.path.exists(destination_dir):
         shutil.rmtree(destination_dir)
 
-    try:
-        shutil.copytree(source_dir, destination_dir, dirs_exist_ok=True)
-    except Exception as e:
-        exit(1)
+    shutil.copytree(source_dir, destination_dir, dirs_exist_ok=True)  
     
     update_apps_file(destination_dir, app_name)
 
