@@ -42,9 +42,9 @@ zorgen-admin setup nome_do_projeto
 <h3> Estrutura do Projeto </h3>
 
 ```base
-seuProjeto/
+<projeto>/
 ├── manage.py
-├── seuProjeto/
+├── <projeto>/
 │   ├── __init__.py
 │   ├── settings.py
 │   ├── urls.py

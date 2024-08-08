@@ -3,6 +3,7 @@ import shutil
 import os
 import sys
 import re
+import argparse
 
 def is_ignored_directory(path):
     ignored_dirs = {'VENV', 'venv', 'env', 'ENV', 'virtualenv', 'VIRTUALENV', 'ENVIROMENT', 'enviroment'}
@@ -54,7 +55,6 @@ def create_app_directory(app_name):
 
     try:
         settings_path = find_settings_py(base_dir)
-        print(f"Found settings.py at: {settings_path}")
         add_app_to_installed_apps(settings_path, app_name)
     except FileNotFoundError as e:
         print(e)
@@ -97,15 +97,6 @@ def update_apps_file(app_dir, app_name):
     except Exception as e:
         print(f"Error updating apps file: {e}")
 
-def custom_startapp():
-    if len(sys.argv) < 3:
-        print("Por favor, forneça o nome do aplicativo.")
-        sys.exit(1)
-
-    app_name = sys.argv[2]
-    create_app_directory(app_name)
-    print(f"Criado APP de maneira personalizada: {app_name}")
-
 def replace_project_references(project_name):
     pattern = re.compile(r'<\s*projeto\s*>', re.IGNORECASE)
     
@@ -113,7 +104,6 @@ def replace_project_references(project_name):
         for file_name in files:
             file_path = os.path.join(root, file_name)
             if not is_ignored_directory(root):
-                print("FILE PATH PARA ARRUMAR: ", file_path)
                 try:
                     with open(file_path, 'r') as file:
                         content = file.read()
@@ -124,36 +114,32 @@ def replace_project_references(project_name):
                         with open(file_path, 'w') as file:
                             file.write(updated_content)
 
-                        print(f'Sucesso ao atualizar {file_path}')
                 except Exception as e:
-                    print(e)
                     continue
-def custom_setup():
-    if len(sys.argv) < 3:
-        print("Por favor, forneça o nome do projeto.")
-        sys.exit(1)
 
-    project_name = sys.argv[2]
+def custom_startapp(app_name):
+    create_app_directory(app_name)
+
+def custom_setup(project_name):
     replace_project_references(project_name)
-    print(f"Substituições para o projeto '{project_name}' concluídas.")
 
 def main():
-    if len(sys.argv) < 2:
-        print("Por favor, forneça um comando.")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Biblioteca Integrada com Django para criar Projetos do Padrão Zorgen!.")
+    
+    subparsers = parser.add_subparsers(dest="command", required=True)
 
-    command = sys.argv[1]
+    startapp_parser = subparsers.add_parser('startapp', help="Cria um novo app Django|Zorgen.")
+    startapp_parser.add_argument('app_name', type=str, help="Nome do aplicativo.")
 
-    if command == 'startapp':
-        custom_startapp()
-    elif command =='setup':
-        custom_setup()
-    else:
-        django_command = ['django-admin'] + sys.argv[1:]
-        result = subprocess.run(django_command, capture_output=True, text=True)
-        print(result.stdout)
-        print(result.stderr, file=sys.stderr)
-        sys.exit(result.returncode)
+    setup_parser = subparsers.add_parser('setup', help="Configura o projeto substituindo todas as referências de '<projeto>' pelo nome do projeto.")
+    setup_parser.add_argument('project_name', type=str, help="Nome do projeto.")
+
+    args = parser.parse_args()
+
+    if args.command == 'startapp':
+        custom_startapp(args.app_name)
+    elif args.command == 'setup':
+        custom_setup(args.project_name)
 
 if __name__ == "__main__":
     main()
