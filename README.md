@@ -62,3 +62,15 @@ zorgen-admin setup nome_do_projeto
             ├── tests.py
     └── views.py
 ```
+##
+
+<h3> Bibliotecas Python que são instaladas juntos com o Zorgen Templator </h3>
+
+```bash
+Django==4.2.13
+python-decouple==3.8
+django-extensions==3.2.3
+requests==2.32.3
+psycopg2==2.9.9
+sentry-sdk==2.11.0
+```
