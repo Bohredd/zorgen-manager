@@ -2,6 +2,7 @@ import subprocess
 import shutil
 import os
 import sys
+import re
 
 def is_ignored_directory(path):
     ignored_dirs = {'VENV', 'venv', 'env', 'ENV', 'virtualenv', 'VIRTUALENV', 'ENVIROMENT', 'enviroment'}
@@ -105,6 +106,36 @@ def custom_startapp():
     create_app_directory(app_name)
     print(f"Criado APP de maneira personalizada: {app_name}")
 
+def replace_project_references(project_name):
+    pattern = re.compile(r'<\s*projeto\s*>', re.IGNORECASE)
+    
+    for root, dirs, files in os.walk(os.getcwd()):
+        for file_name in files:
+            file_path = os.path.join(root, file_name)
+            if not is_ignored_directory(root):
+                print("FILE PATH PARA ARRUMAR: ", file_path)
+                try:
+                    with open(file_path, 'r') as file:
+                        content = file.read()
+
+                    if pattern.search(content):
+                        updated_content = pattern.sub(project_name, content)
+
+                        with open(file_path, 'w') as file:
+                            file.write(updated_content)
+
+                        print(f'Sucesso ao atualizar {file_path}')
+                except (UnicodeDecodeError, FileNotFoundError):
+                    continue
+def custom_compose():
+    if len(sys.argv) < 3:
+        print("Por favor, forneça o nome do projeto.")
+        sys.exit(1)
+
+    project_name = sys.argv[2]
+    replace_project_references(project_name)
+    print(f"Substituições para o projeto '{project_name}' concluídas.")
+
 def main():
     if len(sys.argv) < 2:
         print("Por favor, forneça um comando.")
@@ -114,6 +145,8 @@ def main():
 
     if command == 'startapp':
         custom_startapp()
+    elif command =='compose':
+        custom_compose()
     else:
         django_command = ['django-admin'] + sys.argv[1:]
         result = subprocess.run(django_command, capture_output=True, text=True)

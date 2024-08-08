@@ -25,6 +25,19 @@ Para criar um novo projeto Django usando Django Zorgen Templator, use o comando 
 zorgen-admin startapp nome_do_projeto
 ```
 
+<h3> Organizando Composes do Docker, DockerFile e Arquivos Python </h3>
+
+Por padrão, nossa estruturação vem com inúmeros locais onde há o nome: '< projeto >'
+
+Para isso temos o comando que você altera todas as referências de < projeto > para o nome do seu projeto real.
+
+Use o comando zorgen-admin compose seguido pelo nome do seu projeto:
+
+```bash
+zorgen-admin compose nome_do_projeto
+```
+
+
 ##
 <h3> Estrutura do Projeto </h3>
 
