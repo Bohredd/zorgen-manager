@@ -125,9 +125,10 @@ def replace_project_references(project_name):
                             file.write(updated_content)
 
                         print(f'Sucesso ao atualizar {file_path}')
-                except (UnicodeDecodeError, FileNotFoundError):
+                except Exception as e:
+                    print(e)
                     continue
-def custom_compose():
+def custom_setup():
     if len(sys.argv) < 3:
         print("Por favor, forneça o nome do projeto.")
         sys.exit(1)
@@ -145,8 +146,8 @@ def main():
 
     if command == 'startapp':
         custom_startapp()
-    elif command =='compose':
-        custom_compose()
+    elif command =='setup':
+        custom_setup()
     else:
         django_command = ['django-admin'] + sys.argv[1:]
         result = subprocess.run(django_command, capture_output=True, text=True)
