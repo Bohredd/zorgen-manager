@@ -129,17 +129,17 @@ def main():
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     startapp_parser = subparsers.add_parser('startapp', help="Cria um novo app Django|Zorgen.")
-    startapp_parser.add_argument('app_name', type=str, help="Nome do aplicativo.")
+    startapp_parser.add_argument('nome_app', type=str, help="Nome do aplicativo.")
 
     setup_parser = subparsers.add_parser('setup', help="Configura o projeto substituindo todas as referências de '<projeto>' pelo nome do projeto.")
-    setup_parser.add_argument('project_name', type=str, help="Nome do projeto.")
+    setup_parser.add_argument('nome_projeto', type=str, help="Nome do projeto.")
 
     args = parser.parse_args()
 
     if args.command == 'startapp':
-        custom_startapp(args.app_name)
+        custom_startapp(args.nome_app)
     elif args.command == 'setup':
-        custom_setup(args.project_name)
+        custom_setup(args.nome_projeto)
 
 if __name__ == "__main__":
     main()
