@@ -23,7 +23,7 @@ def find_manage_py():
 
 def find_settings_py(base_dir):
     for root, dirs, files in os.walk(base_dir):
-        if 'settings.py' in files:
+        if 'settings.py' in files and not is_ignored_directory(root):
             return os.path.join(root, 'settings.py')
     print("not found settings.py")
     raise FileNotFoundError("settings.py not found")
