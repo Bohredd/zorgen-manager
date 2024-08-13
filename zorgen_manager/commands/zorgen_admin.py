@@ -56,6 +56,8 @@ def create_app_directory(app_name):
 
     try:
         settings_path = find_settings_py(base_dir)
+        print("Settings path: ", settings_path)
+        print("APP NAME: ", app_name)
         add_app_to_installed_apps(settings_path, app_name)
     except FileNotFoundError as e:
         print(e)
