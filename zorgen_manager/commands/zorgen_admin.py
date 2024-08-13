@@ -25,6 +25,7 @@ def find_settings_py(base_dir):
     for root, dirs, files in os.walk(base_dir):
         if 'settings.py' in files:
             return os.path.join(root, 'settings.py')
+    print("not found settings.py")
     raise FileNotFoundError("settings.py not found")
 
 def add_app_to_installed_apps(settings_path, app_name):
