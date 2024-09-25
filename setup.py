@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 PACKAGE_DATA = list()
 setup(
     name="zorgen-manager",
-    version="0.0.5",
+    version="0.0.6",
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
@@ -24,6 +24,8 @@ setup(
         "requests==2.32.3",
         "psycopg2==2.9.9",
         "sentry-sdk==2.11.0",
+        "django-localflavor==4.0",
+        "djangorestframework==3.14.0",
     ],
     entry_points={
         'console_scripts': [
