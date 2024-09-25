@@ -73,4 +73,6 @@ django-extensions==3.2.3
 requests==2.32.3
 psycopg2==2.9.9
 sentry-sdk==2.11.0
+django-localflavor==4.0
+djangorestframework==3.14.0
 ```
